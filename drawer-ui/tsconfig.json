@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "rootDirs": ["src", "stories"],
+    "jsx": "react",
+    "paths": {
+      "*": ["node_modules/*"],
+      "@/*": ["src/*"]
+    },
+    "types": ["node", "electron", "webpack-env"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules/**/*", "../../node_modules/**/*"]
+}
