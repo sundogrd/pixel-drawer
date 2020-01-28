@@ -12,8 +12,9 @@ export interface RouteConfig {
     key?: React.Key;
     location?: Location;
     redirect?: Path;
-    component?: React.ComponentType |
-    React.ComponentType<RouteConfigComponentProps<any>>;
+    component?:
+        | React.ComponentType
+        | React.ComponentType<RouteConfigComponentProps<any>>;
     path?: string | string[];
     exact?: boolean;
     strict?: boolean;
