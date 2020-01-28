@@ -5,6 +5,8 @@
     "sourceMap": true,
     "experimentalDecorators": true,
     "esModuleInterop": true,
+    "noImplicitThis": true,
+    "strict": true,
     "outDir": "dist",
     "baseUrl": ".",
     "rootDirs": ["src", "stories"],

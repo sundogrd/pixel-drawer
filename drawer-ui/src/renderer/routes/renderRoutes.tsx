@@ -12,9 +12,8 @@ export interface RouteConfig {
     key?: React.Key;
     location?: Location;
     redirect?: Path;
-    component?:
-        | React.ComponentType<RouteConfigComponentProps<any>>
-        | React.ComponentType;
+    component?: React.ComponentType |
+    React.ComponentType<RouteConfigComponentProps<any>>;
     path?: string | string[];
     exact?: boolean;
     strict?: boolean;
@@ -49,19 +48,23 @@ const renderRoutes: React.FunctionComponent<any> = (
                         exact={route.exact}
                         strict={route.strict}
                         render={props => {
-                            return route.render ? (
-                                route.render({
+                            if (route.render) {
+                                return route.render({
                                     ...props,
                                     ...extraProps,
                                     route: route,
-                                })
-                            ) : (
-                                <route.component
-                                    {...props}
-                                    {...extraProps}
-                                    route={route}
-                                />
-                            );
+                                });
+                            }
+                            if (route.component) {
+                                return (
+                                    <route.component
+                                        {...props}
+                                        {...extraProps}
+                                        route={route}
+                                    />
+                                );
+                            }
+                            return undefined;
                         }}
                     />
                 );
