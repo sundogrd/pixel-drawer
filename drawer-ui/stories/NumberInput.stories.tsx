@@ -1,10 +1,10 @@
 /* eslint-disable max-lines-per-function */
 /* eslint-disable max-len */
 import * as React from 'react';
-import Actions from '../src/renderer/views/GameView/Actions';
+import NumberInput from '../src/renderer/components/NumberInput';
 
 export default {
-    title: 'MoveActions',
+    title: 'NumberInput',
     parameters: {
         backgrounds: [{ name: 'gray', value: '#eee', default: true }],
     },
@@ -12,10 +12,10 @@ export default {
 
 export const toStorybook = () => (
     <div>
-        <Actions />
+        <NumberInput value={10} label={'keke'} onChange={() => {}} />
     </div>
 );
 
 toStorybook.story = {
-    name: 'MoveActions',
+    name: 'NumberInput',
 };

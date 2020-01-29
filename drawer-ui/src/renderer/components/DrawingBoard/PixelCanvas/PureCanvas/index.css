@@ -1,0 +1,18 @@
+.Canvas-pixelated {
+    -ms-interpolation-mode: nearest-neighbor;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-pixelated;
+    image-rendering: pixelated;
+    position: absolute;
+    border: solid 1px #fff;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
+}
+
+.Canvas-main {
+    z-index: 2;
+}
+
+.Canvas-background {
+    z-index: 1;
+}

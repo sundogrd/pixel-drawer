@@ -1,6 +1,6 @@
 module.exports = {
     '*.{js,jsx,ts,tsx}': ['prettier --write', 'eslint', 'git add'],
     '*.{json}': ['prettier --write', 'git add'],
-    '*.less': 'stylelint --syntax less',
+    '*.css': 'stylelint --syntax postcss',
     '*.{png,jpeg,jpg,gif,svg}': ['imagemin-lint-staged', 'git add'],
 };

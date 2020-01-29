@@ -1,0 +1,16 @@
+.number-input {
+    margin-top: 1em;
+    border: 3px solid #757575;
+    background-color: #313131;
+    color: #bbb;
+    text-align: center;
+
+    label,
+    input {
+        padding-top: 0.2em;
+    }
+
+    label {
+        display: block;
+    }
+}

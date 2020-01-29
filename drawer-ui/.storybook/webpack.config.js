@@ -17,19 +17,23 @@ module.exports = ({ config }) => {
         '@': path.resolve(__dirname, '..'),
     });
 
-    // less support
+    // postcss support
     config.module.rules.push({
-        test: /\.less$/,
+        test: /\.css$/,
         use: [
+            // Loader for webpack to process CSS with PostCSS
             {
-                loader: require.resolve('style-loader'),
-            },
-            {
-                loader: require.resolve('css-loader'),
-            },
-            {
-                loader: require.resolve('less-loader'),
-                options: { javascriptEnabled: true },
+                loader: 'postcss-loader',
+                options: {
+                    /*
+                Enable Source Maps
+               */
+                    sourceMap: true,
+                    /*
+                Set postcss.config.js config path && ctx
+               */
+                    config: {},
+                },
             },
         ],
     });

@@ -3,6 +3,7 @@
     "module": "commonjs",
     "noImplicitAny": true,
     "sourceMap": true,
+    "target": "es5",
     "experimentalDecorators": true,
     "esModuleInterop": true,
     "noImplicitThis": true,

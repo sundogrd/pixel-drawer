@@ -11,6 +11,12 @@ const isDevelopment = process.env.ELECTRON_DEV == 'dev';
 let mainWindow: Electron.BrowserWindow;
 
 function createMainWindow() {
+    installExtension(REACT_DEVELOPER_TOOLS)
+        .then((name: any) => console.log(`[DEBUG]添加插件：${name}`))
+        .catch((err: Error) =>
+            console.log(`[DEBUG]添加插件${name}错误：`, err),
+        );
+
     // Construct new BrowserWindow
     mainWindow = new BrowserWindow({
         minHeight: 900,
@@ -44,18 +50,6 @@ function createMainWindow() {
             mainWindow.focus();
         });
     });
-
-    installExtension(REACT_DEVELOPER_TOOLS)
-        .then((name: any) => console.log(`[DEBUG]添加插件：${name}`))
-        .catch((err: Error) =>
-            console.log(`[DEBUG]添加插件${name}错误：`, err),
-        );
-
-    installExtension(MOBX_DEVTOOLS)
-        .then((name: any) => console.log(`[DEBUG]添加插件：${name}`))
-        .catch((err: Error) =>
-            console.log(`[DEBUG]添加插件${name}错误：`, err),
-        );
 
     return mainWindow;
 }

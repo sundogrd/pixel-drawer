@@ -18,6 +18,8 @@ module.exports = {
             { prefixWithI: 'never' },
         ],
         '@typescript-eslint/indent': ['error', 4],
+        'react/prop-types': 'off',
+        '@typescript-eslint/explicit-function-return-type': 'off',
     },
     parserOptions: {
         parser: '@typescript-eslint/parser',

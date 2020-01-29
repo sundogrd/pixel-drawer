@@ -1,0 +1,4 @@
+.palette-grid {
+    display: flex;
+    flex-wrap: wrap;
+}

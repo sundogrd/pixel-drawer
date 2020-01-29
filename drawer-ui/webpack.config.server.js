@@ -35,7 +35,7 @@ module.exports = merge(
                 // embedded within the compiled javascript bundle and added
                 // as a blob:// uri at runtime.
                 {
-                    test: /\.(less|css)$/,
+                    test: /\.css$/,
                     use: [
                         {
                             loader: 'style-loader',
@@ -56,7 +56,7 @@ module.exports = merge(
                             // },
                         },
                         {
-                            loader: 'less-loader',
+                            loader: 'postcss-loader',
                         },
                     ],
                 },
