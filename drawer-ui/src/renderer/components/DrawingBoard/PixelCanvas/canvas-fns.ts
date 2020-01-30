@@ -16,6 +16,14 @@ export const setColor = (
     ctx.fillRect(x, y, brushSize, brushSize);
 };
 
+export const removeColor = (
+    canvasContext: CanvasContext,
+    { x, y }: { x: number; y: number },
+) => {
+    const { ctx, brushSize } = canvasContext;
+    ctx.clearRect(x, y, brushSize, brushSize);
+};
+
 const clamp = ({ min, max }: { min: number; max: number }) => (
     value: number,
 ) => {
@@ -158,4 +166,35 @@ export const point = (
     x1 = xClamp(x1);
     y1 = yClamp(y1);
     setColor(canvasContext, { x: x1, y: y1, color });
+};
+
+export const eraserPoint = (
+    canvasContext: CanvasContext,
+    {
+        x0,
+        y0,
+        x1,
+        y1,
+    }: {
+        x0: number;
+        y0: number;
+        x1: number;
+        y1: number;
+    },
+) => {
+    const { width, height } = canvasContext;
+    const xClamp = clamp({
+        min: 0,
+        max: width - 1,
+    });
+    const yClamp = clamp({
+        min: 0,
+        max: height - 1,
+    });
+
+    x0 = xClamp(x0);
+    y0 = yClamp(y0);
+    x1 = xClamp(x1);
+    y1 = yClamp(y1);
+    removeColor(canvasContext, { x: x1, y: y1 });
 };

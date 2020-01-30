@@ -15,13 +15,27 @@ type ToolsContainerProps = {
 
 const ToolsContainer: React.FunctionComponent<ToolsContainerProps> = ({
     currentTool,
+    onChange,
 }) => {
+    const clickHandlerFactory = (tool: ETools) => {
+        return (e: React.MouseEvent) => {
+            if (onChange) {
+                onChange(tool);
+            }
+        };
+    };
+
     return (
         <ul className="tools-container">
-            <Tool toolKey={ETools.PEN} selected={currentTool === ETools.PEN} />
+            <Tool
+                toolKey={ETools.PEN}
+                selected={currentTool === ETools.PEN}
+                onClick={clickHandlerFactory(ETools.PEN)}
+            />
             <Tool
                 toolKey={ETools.ERASER}
                 selected={currentTool === ETools.ERASER}
+                onClick={clickHandlerFactory(ETools.ERASER)}
             />
         </ul>
     );

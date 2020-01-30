@@ -5,11 +5,13 @@ import { ETools } from '.';
 type ToolProps = {
     selected?: boolean;
     toolKey: ETools;
+    onClick?: (e: React.MouseEvent) => void;
 };
 
 const Tool: React.FunctionComponent<ToolProps> = ({
     selected = false,
     toolKey,
+    onClick,
 }) => {
     return (
         <li
@@ -19,6 +21,7 @@ const Tool: React.FunctionComponent<ToolProps> = ({
                     selected: selected,
                 },
             )}
+            onClick={onClick}
         ></li>
     );
 };

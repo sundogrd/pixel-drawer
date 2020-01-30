@@ -4,6 +4,7 @@ import {
     CanvasContext,
     clear,
     line,
+    eraserPoint,
     point,
     withinBound,
     checkerBoardPattern,
@@ -121,6 +122,13 @@ const PixelCanvas: React.FC<PixelCanvasProps> & {
                     x1: rectX1,
                     y1: rectY1,
                     color: selectedColor,
+                });
+            } else if (drawingTool === EDrawingTool.ERASER) {
+                eraserPoint(getCanvasContext(), {
+                    x0: rectX0,
+                    y0: rectY0,
+                    x1: rectX1,
+                    y1: rectY1,
                 });
             }
 

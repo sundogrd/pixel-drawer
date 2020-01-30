@@ -37,6 +37,10 @@ const Worktable: React.FunctionComponent<{}> = () => {
         };
     });
 
+    const handleToolChange = (newTool: ETools) => {
+        store.drawingTool = newTool;
+    };
+
     return useObserver(() => (
         <div className="worktable">
             <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -45,7 +49,10 @@ const Worktable: React.FunctionComponent<{}> = () => {
                     color={store.paletteColor}
                     onColorSelected={color => store.changePaletteColor(color)}
                 />
-                <ToolsContainer currentTool={store.drawingTool as ETools} />
+                <ToolsContainer
+                    currentTool={store.drawingTool as ETools}
+                    onChange={handleToolChange}
+                />
             </div>
             <div
                 style={{
