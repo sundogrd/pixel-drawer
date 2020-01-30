@@ -9,6 +9,7 @@ export type DrawingBoardProps = {
     width: number;
     height: number;
     selectedColor: string;
+    drawingTool: string;
 };
 
 const defaultProps = {
@@ -24,7 +25,7 @@ const toolClassMap = {
 
 const DrawingBoard: React.FunctionComponent<DrawingBoardProps> & {
     defaultProps: Readonly<typeof defaultProps>;
-} = ({ width, height, selectedColor }) => {
+} = ({ width, height, selectedColor, drawingTool }) => {
     const [ref, domRect] = useDimensions();
 
     const store = useLocalStore(() => ({
@@ -34,7 +35,7 @@ const DrawingBoard: React.FunctionComponent<DrawingBoardProps> & {
         maxZoom: 15,
         minZoom: 5,
         brushSize: 1,
-        drawingTool: EDrawingTool.PEN,
+        drawingTool: drawingTool as EDrawingTool,
         selectedColor: selectedColor,
         increaseZoom(increase: number) {
             this.zoom = Math.min(this.maxZoom, this.zoom + increase);
@@ -49,6 +50,9 @@ const DrawingBoard: React.FunctionComponent<DrawingBoardProps> & {
         changeColor(color: string) {
             this.selectedColor = color;
         },
+        changeDrawingTool(tool: EDrawingTool) {
+            this.drawingTool = tool;
+        },
     }));
 
     useEffect(() => {
@@ -58,6 +62,10 @@ const DrawingBoard: React.FunctionComponent<DrawingBoardProps> & {
     useEffect(() => {
         store.changeColor(selectedColor);
     }, [selectedColor]);
+
+    useEffect(() => {
+        store.changeDrawingTool(drawingTool as EDrawingTool);
+    }, [drawingTool]);
 
     const [wheelXy, setWheelXy] = useState<{ x: number; y: number }>({
         x: 0,

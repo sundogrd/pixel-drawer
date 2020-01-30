@@ -3,6 +3,7 @@ import { useLocalStore, useObserver } from 'mobx-react';
 import Palette from '../../components/Palette';
 import DrawingBoard from '../../components/DrawingBoard';
 import NumberInput from '../../components/NumberInput';
+import ToolsContainer, { ETools } from './ToolsContainer';
 
 import './index.css';
 
@@ -24,6 +25,7 @@ const Worktable: React.FunctionComponent<{}> = () => {
             canvasColumns: 32,
             canvasRows: 32,
             paletteColor: '#a12af1',
+            drawingTool: 'PEN',
             changeCanvasSize(rows: number, columns: number): void {
                 // TODO: implementation
                 this.canvasColumns = columns;
@@ -43,6 +45,7 @@ const Worktable: React.FunctionComponent<{}> = () => {
                     color={store.paletteColor}
                     onColorSelected={color => store.changePaletteColor(color)}
                 />
+                <ToolsContainer currentTool={store.drawingTool as ETools} />
             </div>
             <div
                 style={{
@@ -57,6 +60,7 @@ const Worktable: React.FunctionComponent<{}> = () => {
                     width={store.canvasColumns}
                     height={store.canvasRows}
                     selectedColor={store.paletteColor}
+                    drawingTool={store.drawingTool}
                 />
             </div>
             <div style={{}}>

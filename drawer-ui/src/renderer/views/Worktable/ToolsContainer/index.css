@@ -1,0 +1,81 @@
+.tools-container {
+    .tool-icon {
+        position: relative;
+        cursor: pointer;
+        width: 46px;
+        height: 46px;
+        margin: 1px;
+        background-color: #3a3a3a;
+
+        &.selected {
+            &::before {
+                content: "";
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                border: 3px solid gold;
+                box-sizing: border-box;
+            }
+        }
+
+        &.icon-tool-circle {
+            background-image: url(./images/tool-circle.png);
+        }
+
+        &.icon-tool-colorpicker {
+            background-image: url(./images/tool-colorpicker.png);
+        }
+
+        &.icon-tool-colorswap {
+            background-image: url(./images/tool-colorswap.png);
+        }
+
+        &.icon-tool-dithering {
+            background-image: url(./images/tool-dithering.png);
+        }
+
+        &.icon-tool-eraser {
+            background-image: url(./images/tool-eraser.png);
+        }
+
+        &.icon-tool-lasso-select {
+            background-image: url(./images/tool-lasso-select.png);
+        }
+
+        &.icon-tool-lighten {
+            background-image: url(./images/tool-lighten.png);
+        }
+
+        &.icon-tool-move {
+            background-image: url(./images/tool-move.png);
+        }
+
+        &.icon-tool-paint-bucket {
+            background-image: url(./images/tool-paint-bucket.png);
+        }
+
+        &.icon-tool-pen {
+            background-image: url(./images/tool-pen.png);
+        }
+
+        &.icon-tool-rectangle-select {
+            background-image: url(./images/tool-rectangle-select.png);
+        }
+
+        &.icon-tool-rectangle {
+            background-image: url(./images/tool-rectangle.png);
+        }
+
+        &.icon-tool-shape-select {
+            background-image: url(./images/tool-shape-select.png);
+        }
+
+        &.icon-tool-stroke {
+            background-image: url(./images/tool-stroke.png);
+        }
+
+        &.icon-tool-vertical-mirror-pen {
+            background-image: url(./images/tool-vertical-mirror-pen.png);
+        }
+    }
+}
