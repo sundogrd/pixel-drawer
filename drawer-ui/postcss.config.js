@@ -8,5 +8,6 @@ module.exports = {
         },
         'postcss-import': {},
         'postcss-nested': {},
+        'postcss-url': {},
     },
 };

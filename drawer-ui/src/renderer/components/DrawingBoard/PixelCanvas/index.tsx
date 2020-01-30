@@ -99,7 +99,6 @@ const PixelCanvas: React.FC<PixelCanvasProps> & {
     // gesture for canvas
     const bindGesture = useGesture({
         onDrag: state => {
-            console.log(state);
             const [x0, y0] = state.previous;
             const [x1, y1] = state.xy;
             const canvas = canvasRef.current!;
@@ -143,6 +142,15 @@ const PixelCanvas: React.FC<PixelCanvasProps> & {
                 height={height}
                 animatedStyleProps={animatedStyleProps}
                 className={'Canvas-background'}
+            />
+            {/* overlay 用于笔触以及显示操作中的线条 */}
+            <PureCanvas
+                canvasRefCallback={canvasRefCallback}
+                width={width}
+                height={height}
+                bindGesture={bindGesture}
+                animatedStyleProps={animatedStyleProps}
+                className={'Canvas-overlay'}
             />
             <PureCanvas
                 canvasRefCallback={canvasRefCallback}

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { observer, useLocalStore } from 'mobx-react';
+import { useLocalStore, useObserver } from 'mobx-react';
 import Palette from '../../components/Palette';
 import DrawingBoard from '../../components/DrawingBoard';
 import NumberInput from '../../components/NumberInput';
@@ -18,14 +18,11 @@ const PALETTE_COLORS = [
     '#a12af1',
 ];
 
-const Worktable: React.FunctionComponent<{}> = observer(() => {
+const Worktable: React.FunctionComponent<{}> = () => {
     const store = useLocalStore(() => {
         return {
-            canvasColumns: 10,
-            canvasRows: 10,
-            canvasColorGrid: new Array(10 * 10).fill('#333333') as Array<
-                string
-            >,
+            canvasColumns: 32,
+            canvasRows: 32,
             paletteColor: '#a12af1',
             changeCanvasSize(rows: number, columns: number): void {
                 // TODO: implementation
@@ -38,35 +35,48 @@ const Worktable: React.FunctionComponent<{}> = observer(() => {
         };
     });
 
-    return (
+    return useObserver(() => (
         <div className="worktable">
-            <Palette
-                grid={PALETTE_COLORS}
-                color={store.paletteColor}
-                onColorSelected={color => store.changePaletteColor(color)}
-            />
-            <div style={{ maxWidth: 600, maxHeight: 600, margin: '10px auto' }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Palette
+                    grid={PALETTE_COLORS}
+                    color={store.paletteColor}
+                    onColorSelected={color => store.changePaletteColor(color)}
+                />
+            </div>
+            <div
+                style={{
+                    width: '100%',
+                    height: '100%',
+                    margin: '0 auto',
+                    display: 'flex',
+                    alignItems: 'center',
+                }}
+            >
                 <DrawingBoard
                     width={store.canvasColumns}
                     height={store.canvasRows}
+                    selectedColor={store.paletteColor}
                 />
             </div>
-            <NumberInput
-                value={store.canvasColumns}
-                label={'Pixel Columns'}
-                onChange={number => {
-                    store.changeCanvasSize(store.canvasRows, number);
-                }}
-            />
-            <NumberInput
-                value={store.canvasRows}
-                label={'Pixel Rows'}
-                onChange={number => {
-                    store.changeCanvasSize(number, store.canvasColumns);
-                }}
-            />
+            <div style={{}}>
+                <NumberInput
+                    value={store.canvasColumns}
+                    label={'Pixel Columns'}
+                    onChange={number => {
+                        store.changeCanvasSize(store.canvasRows, number);
+                    }}
+                />
+                <NumberInput
+                    value={store.canvasRows}
+                    label={'Pixel Rows'}
+                    onChange={number => {
+                        store.changeCanvasSize(number, store.canvasColumns);
+                    }}
+                />
+            </div>
         </div>
-    );
-});
+    ));
+};
 
 export default Worktable;

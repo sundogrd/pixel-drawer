@@ -8,27 +8,34 @@ import './index.css';
 export type DrawingBoardProps = {
     width: number;
     height: number;
+    selectedColor: string;
 };
 
 const defaultProps = {
     width: 20,
     height: 20,
+    selectedColor: '#333333',
+};
+
+const toolClassMap = {
+    [EDrawingTool.PEN]: 'tool-pen',
+    [EDrawingTool.ERASER]: 'tool-eraser',
 };
 
 const DrawingBoard: React.FunctionComponent<DrawingBoardProps> & {
     defaultProps: Readonly<typeof defaultProps>;
-} = ({ width, height }) => {
+} = ({ width, height, selectedColor }) => {
     const [ref, domRect] = useDimensions();
 
     const store = useLocalStore(() => ({
         width: width,
         height: height,
-        zoom: 30,
-        maxZoom: 200,
-        minZoom: 1,
+        zoom: 15,
+        maxZoom: 15,
+        minZoom: 5,
         brushSize: 1,
         drawingTool: EDrawingTool.PEN,
-        selectedColor: '#333333',
+        selectedColor: selectedColor,
         increaseZoom(increase: number) {
             this.zoom = Math.min(this.maxZoom, this.zoom + increase);
         },
@@ -39,11 +46,18 @@ const DrawingBoard: React.FunctionComponent<DrawingBoardProps> & {
             this.width = width;
             this.height = height;
         },
+        changeColor(color: string) {
+            this.selectedColor = color;
+        },
     }));
 
     useEffect(() => {
         store.changeCanvasSize(width, height);
     }, [width, height]);
+
+    useEffect(() => {
+        store.changeColor(selectedColor);
+    }, [selectedColor]);
 
     const [wheelXy, setWheelXy] = useState<{ x: number; y: number }>({
         x: 0,
@@ -59,6 +73,7 @@ const DrawingBoard: React.FunctionComponent<DrawingBoardProps> & {
     });
 
     const handleWheel = (event: React.WheelEvent) => {
+        event.preventDefault();
         const deltaY = event.deltaY;
         if (deltaY < 0) {
             store.increaseZoom(-deltaY / 30);
@@ -68,8 +83,14 @@ const DrawingBoard: React.FunctionComponent<DrawingBoardProps> & {
         setWheelXy({ x: event.clientX, y: event.clientY });
     };
 
+    const toolClass = toolClassMap[store.drawingTool];
+
     return useObserver(() => (
-        <div className="drawing-board" ref={ref} onWheel={handleWheel}>
+        <div
+            className={`drawing-board ${toolClass}`}
+            ref={ref}
+            onWheel={handleWheel}
+        >
             <PixelCanvas
                 animatedStyleProps={animatedStyleProps}
                 zoom={store.zoom}

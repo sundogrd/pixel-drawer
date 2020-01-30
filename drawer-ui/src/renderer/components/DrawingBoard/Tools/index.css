@@ -1,0 +1,60 @@
+
+/*
+ * Tool cursors:
+ */
+
+.drawing-board:hover {
+    &.tool-paint-bucket,
+    &.tool-colorswap {
+        cursor: url(./images/paint-bucket.png) 14 14, pointer;
+    }
+
+    &.tool-vertical-mirror-pen {
+        cursor: url(./images/vertical-mirror-pen.png) 5 15, pointer;
+    }
+
+    &.tool-pen {
+        cursor: url(./images/pen.png) 1 14, pointer;
+    }
+
+    &.tool-dithering {
+        cursor: url(./images/dither.png) 1 14, pointer;
+    }
+
+    &.tool-lighten {
+        cursor: url(./images/lighten.png) 1 15, pointer;
+    }
+
+    &.tool-eraser {
+        cursor: url(./images/eraser.png) 3 14, pointer;
+    }
+
+    &.tool-stroke {
+        cursor: url(./images/stroke.png) 1 14, pointer;
+    }
+
+    &.tool-rectangle {
+        cursor: url(./images/rectangle.png) 5 15, pointer;
+    }
+
+    &.tool-circle {
+        cursor: url(./images/circle.png) 5 15, pointer;
+    }
+
+    &.tool-move {
+        cursor: url(./images/hand.png) 7 7, pointer;
+    }
+
+    &.tool-rectangle-select,
+    &.tool-lasso-select {
+        cursor: crosshair;
+    }
+
+    &.tool-shape-select {
+        cursor: url(./images/wand.png) 10 5, pointer;
+    }
+
+    &.tool-colorpicker {
+        cursor: url(./images/dropper.png) 2 15, pointer;
+    }
+}

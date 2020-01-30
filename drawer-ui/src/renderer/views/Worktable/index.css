@@ -1,3 +1,6 @@
 .worktable {
+    display: grid;
+    grid-template-columns: 100px auto 300px;
+    grid-template-rows: auto;
     height: 100vh;
 }
