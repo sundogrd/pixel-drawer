@@ -138,16 +138,12 @@ export const line = (
 export const point = (
     canvasContext: CanvasContext,
     {
-        x0,
-        y0,
-        x1,
-        y1,
+        x,
+        y,
         color,
     }: {
-        x0: number;
-        y0: number;
-        x1: number;
-        y1: number;
+        x: number;
+        y: number;
         color: string;
     },
 ) => {
@@ -161,11 +157,9 @@ export const point = (
         max: height - 1,
     });
 
-    x0 = xClamp(x0);
-    y0 = yClamp(y0);
-    x1 = xClamp(x1);
-    y1 = yClamp(y1);
-    setColor(canvasContext, { x: x1, y: y1, color });
+    x = xClamp(x);
+    y = yClamp(y);
+    setColor(canvasContext, { x: x, y: y, color });
 };
 
 export const eraserPoint = (
