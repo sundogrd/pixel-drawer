@@ -1,0 +1,45 @@
+.frames {
+    margin: 0 10px;
+    .frames-droppable {
+        background: 'grey';
+        padding: grid;
+        width: 250;
+        &.dragging-over {
+            background: 'lightblue';
+        }
+        .frame {
+            user-select: 'none';
+            padding: 4px;
+            margin: 0 0 2px 0;
+            background: 'red';
+            &.dragging {
+                background: 'lightgreen';
+            }
+        }
+    }
+    #add-frame-action {
+        display: flex;
+        align-items: center;
+        margin-top: 8px;
+        padding: 6px 0;
+        overflow: hidden;
+        width: 96px;
+        border: #888 solid 3px;
+        border-radius: 4px;
+        color: #888;
+        background-color: #222;
+        font-size: 13px;
+        cursor: pointer;
+        &:hover {
+            border-color: gold;
+        }
+        .add-frame-action-icon {
+            margin: 3px;
+            float: left;
+            flex-shrink: 0;
+            background-image: url(./images/frame-plus-white.png);
+            width: 26px;
+            height: 26px;
+        }
+    }
+}

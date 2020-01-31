@@ -1,5 +1,8 @@
 {
-  "cSpell.words": ["stylelint"],
+  "cSpell.words": [
+    "Droppable",
+    "stylelint"
+  ],
   "jest.pathToConfig": "./jest.config.js",
   "jest.pathToJest": "./node_modules/.bin/jest",
   "eslint.enable": true,

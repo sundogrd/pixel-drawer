@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import { useGesture } from 'react-use-gesture';
 import * as _ from 'lodash-es';
+import useCanvasRef from '../../../hooks/useCanvasRef';
 import {
     CanvasContext,
     clear,
@@ -12,19 +13,6 @@ import {
     checkerBoardPattern,
 } from './canvas-fns';
 import PureCanvas from './PureCanvas';
-
-const useCanvasRef = (): [
-    React.MutableRefObject<HTMLCanvasElement>,
-    (node: any) => void,
-] => {
-    const ref = useRef<HTMLCanvasElement>();
-    const callback = useCallback(node => {
-        if (node) {
-            ref.current = node;
-        }
-    }, []);
-    return [ref as React.MutableRefObject<HTMLCanvasElement>, callback];
-};
 
 export enum EDrawingTool {
     PEN = 'PEN',
