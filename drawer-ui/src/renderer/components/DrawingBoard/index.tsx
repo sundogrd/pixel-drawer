@@ -3,6 +3,7 @@ import useDimensions from '../../hooks/useDimensions';
 import PixelCanvas, { EDrawingTool } from './PixelCanvas';
 import useAnimatedCanvasProps from '../../hooks/useAnimatedCanvasProps';
 import { useLocalStore, useObserver } from 'mobx-react';
+import { useToggle } from 'react-use';
 import './index.css';
 
 export type DrawingBoardProps = {
@@ -10,6 +11,8 @@ export type DrawingBoardProps = {
     height: number;
     selectedColor: string;
     drawingTool: string;
+    onCanvasUpdate?: (pixels: Uint32Array) => void;
+    onInit?: (mainCanvas: HTMLCanvasElement) => void;
 };
 
 const defaultProps = {
@@ -25,10 +28,13 @@ const toolClassMap = {
 
 const DrawingBoard: React.FunctionComponent<DrawingBoardProps> & {
     defaultProps: Readonly<typeof defaultProps>;
-} = ({ width, height, selectedColor, drawingTool }) => {
+} = ({ width, height, selectedColor, drawingTool, onCanvasUpdate, onInit }) => {
     const [ref, domRect] = useDimensions();
+    const [isInit, toggleIsInit] = useToggle(false);
 
     const store = useLocalStore(() => ({
+        mainCanvas: null as null | HTMLCanvasElement,
+
         width: width,
         height: height,
         zoom: 15,
@@ -37,6 +43,9 @@ const DrawingBoard: React.FunctionComponent<DrawingBoardProps> & {
         brushSize: 1,
         drawingTool: drawingTool as EDrawingTool,
         selectedColor: selectedColor,
+        setMainCanvas(mainCanvas: HTMLCanvasElement) {
+            this.mainCanvas = mainCanvas;
+        },
         increaseZoom(increase: number) {
             this.zoom = Math.min(this.maxZoom, this.zoom + increase);
         },
@@ -54,6 +63,13 @@ const DrawingBoard: React.FunctionComponent<DrawingBoardProps> & {
             this.drawingTool = tool;
         },
     }));
+
+    useEffect(() => {
+        if (store.mainCanvas && !isInit) {
+            onInit && onInit(store.mainCanvas);
+            toggleIsInit(true);
+        }
+    }, [store.mainCanvas]);
 
     useEffect(() => {
         store.changeCanvasSize(width, height);
@@ -100,6 +116,8 @@ const DrawingBoard: React.FunctionComponent<DrawingBoardProps> & {
             onWheel={handleWheel}
         >
             <PixelCanvas
+                onCanvasUpdate={onCanvasUpdate}
+                onCanvasInit={onInit}
                 animatedStyleProps={animatedStyleProps}
                 zoom={store.zoom}
                 width={store.width}

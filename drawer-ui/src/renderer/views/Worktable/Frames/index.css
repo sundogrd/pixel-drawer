@@ -4,16 +4,68 @@
         background: 'grey';
         padding: grid;
         width: 250;
+        margin: 10px 0;
         &.dragging-over {
             background: 'lightblue';
         }
         .frame {
+            position: relative;
+            border: #444 3px solid;
+            border-radius: 3px;
+            margin-top: 5px;
+            width: 94px;
+            height: 94px;
             user-select: 'none';
-            padding: 4px;
-            margin: 0 0 2px 0;
             background: 'red';
             &.dragging {
                 background: 'lightgreen';
+            }
+            &.selected {
+                border-color: gold;
+            }
+            .frame-index {
+                position: absolute;
+                border: none;
+                background-color: gold;
+                color: black;
+                display: block;
+                opacity: 1;
+                border-bottom-right-radius: 3px;
+                top: 0;
+                left: 0;
+                font-size: 14px;
+                line-height: 30px;
+                font-weight: bold;
+                text-align: center;
+                cursor: default;
+            }
+
+            .frame-tools {
+                position: absolute;
+                left: 95px;
+                top: 50%;
+                transform: translate(0, -50%);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                overflow: hidden;
+                border: #888 solid 3px;
+                border-radius: 4px;
+                color: #888;
+                background-color: #222;
+                font-size: 13px;
+                .frame-tool {
+                    position: relative;
+                    transition: 0.2s background ease-in-out;
+                    cursor: pointer;
+                    width: 46px;
+                    height: 46px;
+                    margin: 1px;
+                    background-color: #3a3a3a;
+                    &:hover {
+                        background-color: #6a6a6a;
+                    }
+                }
             }
         }
     }
@@ -41,5 +93,16 @@
             width: 26px;
             height: 26px;
         }
+    }
+}
+
+/* icon */
+.frame-tool {
+    background-size: contain;
+    &.icon-frame-tool-import {
+        background-image: url(./images/tools/import.png);
+    }
+    &.icon-frame-tool-export {
+        background-image: url(./images/tools/export.png);
     }
 }

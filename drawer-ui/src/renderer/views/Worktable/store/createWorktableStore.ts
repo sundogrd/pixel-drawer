@@ -2,6 +2,7 @@ import uuidv4 from 'uuid/v4';
 import Frame from '../../../../models/Frame';
 
 export function createWorktableStore() {
+    const initFrame = new Frame(32, 32);
     return {
         /* drawing */
         canvasColumns: 32,
@@ -21,9 +22,9 @@ export function createWorktableStore() {
         },
 
         /* frames */
-        currentFrame: null as null | Frame,
-        frames: [] as Array<Frame>,
-        changeFrame(frame: Frame) {
+        currentFrame: initFrame,
+        frames: [initFrame] as Array<Frame>,
+        changeCurrentFrame(frame: Frame) {
             this.currentFrame = frame;
         },
         resortFrames(startIndex: number, endIndex: number) {

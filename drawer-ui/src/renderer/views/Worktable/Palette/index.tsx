@@ -13,6 +13,10 @@ const PALETTE_COLORS = [
     '#9344aa',
     '#4944aa',
     '#a12af1',
+    '#ffff45',
+    '#f53d31',
+    '#ffd34a',
+    '#fbaa27',
 ];
 
 type PaletteProps = {};

@@ -1,3 +1,4 @@
+import EventEmitter from 'eventemitter3';
 import { colorToInt } from '../utils/drawing';
 import constants from '../constants';
 import uuidv4 from 'uuid/v4';
@@ -13,7 +14,7 @@ const createEmptyPixelGrid_ = (width: number, height: number) => {
     } else {
         pixels = _emptyPixelGridCache[key] = new Uint32Array(width * height);
         // const transparentColorInt = colorToInt(constants.TRANSPARENT_COLOR);
-        const transparentColorInt = colorToInt('rgba(125,42,12, 0.6)');
+        const transparentColorInt = colorToInt('rgba(255, 255, 255, 0)');
         pixels.fill(transparentColorInt);
     }
 
@@ -27,6 +28,7 @@ class Frame {
     version: number;
     pixels: Uint32Array;
     stateIndex: number;
+    emitter: EventEmitter;
     constructor(width: number, height: number) {
         this.width = width;
         this.height = height;
@@ -34,6 +36,8 @@ class Frame {
         this.version = 0;
         this.pixels = createEmptyPixelGrid_(width, height);
         this.stateIndex = 0; // for history
+
+        this.emitter = new EventEmitter();
     }
 
     static createEmptyFromFrame(frame: Frame) {
@@ -113,6 +117,14 @@ class Frame {
         return (
             this.height === otherFrame.height && this.width === otherFrame.width
         );
+    }
+
+    onUpdate(callback: () => void) {
+        this.emitter.on('update', callback);
+    }
+
+    removeUpdateListener(callback: () => void) {
+        this.emitter.removeListener('update', callback);
     }
 }
 

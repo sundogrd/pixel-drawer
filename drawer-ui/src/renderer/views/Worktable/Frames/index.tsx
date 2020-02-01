@@ -5,19 +5,26 @@ import {
     Draggable,
     DropResult,
 } from 'react-beautiful-dnd';
+
 import classnames from 'classnames';
 import { useLogger } from 'react-use';
 import { useWorktableStore } from '../store/context';
 import { observer } from 'mobx-react';
-import Frame from '../../../../models/Frame';
-import FrameRender from './FrameRender';
-
+import FrameComponent from './Frame';
 import './index.css';
 
 type FramesProps = {};
 
 const Frames: React.FunctionComponent<FramesProps> = observer(() => {
-    const { frames, addFrame, resortFrames } = useWorktableStore();
+    const {
+        frames,
+        addFrame,
+        canvasRows,
+        canvasColumns,
+        resortFrames,
+        changeCurrentFrame,
+        currentFrame,
+    } = useWorktableStore();
 
     useLogger('Frames', {
         frames: frames,
@@ -27,7 +34,10 @@ const Frames: React.FunctionComponent<FramesProps> = observer(() => {
         if (!result.destination) {
             return;
         }
+        resortFrames(result.source.index, result.destination.index);
     };
+
+    const previewZoom = 94 / canvasRows;
 
     return (
         <div className="frames">
@@ -48,20 +58,22 @@ const Frames: React.FunctionComponent<FramesProps> = observer(() => {
                                     index={index}
                                 >
                                     {(draggableProvided, draggableSnapshot) => (
-                                        <div
-                                            className={classnames('frame', {
-                                                dragging:
-                                                    draggableSnapshot.isDragging,
-                                            })}
-                                            ref={draggableProvided.innerRef}
+                                        <FrameComponent
+                                            index={index}
+                                            frame={frame}
+                                            zoom={previewZoom}
+                                            isDragging={
+                                                draggableSnapshot.isDragging
+                                            }
+                                            selected={
+                                                currentFrame.id === frame.id
+                                            }
+                                            forwardingRef={
+                                                draggableProvided.innerRef
+                                            }
                                             {...draggableProvided.draggableProps}
                                             {...draggableProvided.dragHandleProps}
-                                        >
-                                            <FrameRender
-                                                frame={frame}
-                                                zoom={1}
-                                            />
-                                        </div>
+                                        />
                                     )}
                                 </Draggable>
                             ))}

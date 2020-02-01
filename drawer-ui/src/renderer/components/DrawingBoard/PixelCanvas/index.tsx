@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import { useGesture } from 'react-use-gesture';
 import * as _ from 'lodash-es';
+import * as canvasUtils from '../../../../utils/canvas';
 import useCanvasRef from '../../../hooks/useCanvasRef';
 import {
     CanvasContext,
@@ -31,6 +32,8 @@ type PixelCanvasProps = {
     height: number;
     brushSize: number;
     selectedColor: string;
+    onCanvasUpdate?: (pixels: Uint32Array) => void;
+    onCanvasInit?: (canvas: HTMLCanvasElement) => void;
 };
 
 const defaultProps = {
@@ -54,6 +57,9 @@ const PixelCanvas: React.FC<PixelCanvasProps> & {
     height,
     brushSize,
     selectedColor,
+
+    onCanvasInit,
+    onCanvasUpdate,
 }) => {
     // canvas ref callback
     const [canvasRef, canvasRefCallback] = useCanvasRef();
@@ -143,7 +149,33 @@ const PixelCanvas: React.FC<PixelCanvasProps> & {
                 console.log(state);
             },
             onDragEnd: (state: any) => {
+                const [x1, y1] = state.xy;
+                const overlayCanvas = overlayCanvasRef.current!;
+                const overlayCanvasRect = overlayCanvas.getBoundingClientRect();
+                const rectX1 = Math.floor((x1 - overlayCanvasRect.left) / zoom);
+                const rectY1 = Math.floor((y1 - overlayCanvasRect.top) / zoom);
                 console.log(state);
+                removeColor(getCanvasContext(overlayCanvasRef), {
+                    x: rectX1,
+                    y: rectX1,
+                });
+
+                //grab the context from your destination canvas
+                const destCtx = canvasRef.current.getContext('2d')!;
+
+                //call its drawImage() function passing it the source canvas directly
+                destCtx.drawImage(overlayCanvas, 0, 0);
+                clear({
+                    ctx: overlayCanvas.getContext('2d')!,
+                    width: width,
+                    height: height,
+                    brushSize: 1,
+                });
+                if (onCanvasUpdate) {
+                    onCanvasUpdate(
+                        canvasUtils.toPixels(canvasRef.current!, width, height),
+                    );
+                }
             },
             onMove: _.throttle(state => {
                 const [x0, y0] = state.previous;
@@ -166,17 +198,18 @@ const PixelCanvas: React.FC<PixelCanvasProps> & {
                     return;
                 }
 
-                // 笔触效果
                 removeColor(getCanvasContext(overlayCanvasRef), {
                     x: rectX0,
                     y: rectY0,
                 });
-
-                point(getCanvasContext(overlayCanvasRef), {
-                    x: rectX1,
-                    y: rectY1,
-                    color: 'rgba(255, 255, 255, 0.5)',
-                });
+                // 笔触效果
+                if (!state.dragging) {
+                    point(getCanvasContext(overlayCanvasRef), {
+                        x: rectX1,
+                        y: rectY1,
+                        color: 'rgba(255, 255, 255, 0.5)',
+                    });
+                }
 
                 if (state.dragging && drawingTool === EDrawingTool.PEN) {
                     line(getCanvasContext(), {
@@ -221,7 +254,10 @@ const PixelCanvas: React.FC<PixelCanvasProps> & {
                 style={{ zIndex: 0 }}
             />
             <PureCanvas
-                canvasRefCallback={canvasRefCallback}
+                canvasRefCallback={node => {
+                    canvasRefCallback(node);
+                    onCanvasInit && onCanvasInit(node);
+                }}
                 width={width}
                 height={height}
                 animatedStyleProps={animatedStyleProps}
